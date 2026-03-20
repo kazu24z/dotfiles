@@ -1,0 +1,12 @@
+# Claude Code開発環境セットアップ
+
+# Modern CLI tools
+alias cat='bat'
+alias ls='eza'
+alias cd='z'
+alias lg='lazygit'
+export EDITOR=nvim
+
+# Init
+eval "$(zoxide init zsh)"
+eval "$(starship init zsh)"

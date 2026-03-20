@@ -1,0 +1,25 @@
+[aws]
+disabled = true
+
+[gcloud]
+disabled = true
+
+[git_branch]
+format = 'on [$symbol$branch(:$remote_branch)](bold purple) '
+symbol = ""
+
+[git_status]
+format = '([\[$all_status\]](yellow) )'
+conflicted = "*"
+ahead = "*"
+behind = "*"
+diverged = "*"
+untracked = "*"
+stashed = ""
+modified = "*"
+staged = "*"
+renamed = "*"
+deleted = "*"
+
+[cmd_duration]
+disabled = true
