@@ -10,11 +10,22 @@ brew bundle --file="$DOTFILES_DIR/Brewfile"
 echo "==> Creating symlinks..."
 mkdir -p ~/.config
 
-ln -sf "$DOTFILES_DIR/config/nvim" ~/.config/nvim
-ln -sf "$DOTFILES_DIR/config/zellij" ~/.config/zellij
-ln -sf "$DOTFILES_DIR/config/ghostty" ~/.config/ghostty
-ln -sf "$DOTFILES_DIR/config/starship.toml" ~/.config/starship.toml
-ln -sf "$DOTFILES_DIR/home/zshrc.dev-tools" ~/.zshrc.dev-tools
+link_or_skip() {
+    local src="$1"
+    local target="$2"
+    if [ -e "$target" ] && [ ! -L "$target" ]; then
+        echo "  SKIP: $target already exists (not a symlink). Skipping."
+    else
+        ln -sf "$src" "$target"
+        echo "  LINK: $target"
+    fi
+}
+
+link_or_skip "$DOTFILES_DIR/config/nvim" ~/.config/nvim
+link_or_skip "$DOTFILES_DIR/config/zellij" ~/.config/zellij
+link_or_skip "$DOTFILES_DIR/config/ghostty" ~/.config/ghostty
+link_or_skip "$DOTFILES_DIR/config/starship.toml" ~/.config/starship.toml
+link_or_skip "$DOTFILES_DIR/home/zshrc.dev-tools" ~/.zshrc.dev-tools
 
 echo "==> Updating ~/.zshrc..."
 if ! grep -q "source ~/.zshrc.dev-tools" ~/.zshrc; then

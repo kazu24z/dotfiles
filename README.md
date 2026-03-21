@@ -4,16 +4,23 @@ Claude Code開発環境のdotfiles管理リポジトリ。
 
 ## セットアップ
 
+cloneする場所は任意です。
+
 ```bash
-# 1. リポジトリをclone
-git clone https://github.com/kazu24z/dotfiles ~/dotfiles
+# 1. Homebrewをインストール（未インストールの場合）
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# 2. インストールスクリプトを実行
-cd ~/dotfiles && ./install.sh
+# 2. リポジトリをclone（場所は任意）
+git clone https://github.com/kazu24z/dotfiles <任意のパス>
 
-# 3. シェルに反映
+# 3. インストールスクリプトを実行
+cd <cloneしたパス> && ./install.sh
+
+# 4. シェルに反映
 source ~/.zshrc
 ```
+
+> Neovim初回起動時（`nvim`）はプラグインが自動インストールされます。完了したら `:q` で終了してください。
 
 ## 使い方
 
@@ -28,15 +35,15 @@ zdev
 
 ```bash
 # Brewfileを編集後
-~/dotfiles/install.sh
+cd <cloneしたパス> && ./install.sh
 ```
 
 ## 管理している設定ファイル
 
-| ファイル | 内容 |
-|---|---|
-| `config/nvim/` | Neovim + LazyVim |
-| `config/zellij/` | Zellij・レイアウト |
-| `config/ghostty/` | Ghostty（ターミナル） |
-| `config/starship.toml` | プロンプト |
+| ファイル               | 内容                  |
+| ---------------------- | --------------------- |
+| `config/nvim/`         | Neovim + LazyVim      |
+| `config/zellij/`       | Zellij・レイアウト    |
+| `config/ghostty/`      | Ghostty（ターミナル） |
+| `config/starship.toml` | プロンプト            |
 | `home/zshrc.dev-tools` | CLIツール・エイリアス |
