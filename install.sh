@@ -5,8 +5,7 @@ set -e
 DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 echo "==> Installing tools..."
-brew install neovim zellij lazygit yazi bat eza fzf ripgrep zoxide fd delta starship stow
-brew install --cask ghostty
+brew bundle --file="$DOTFILES_DIR/Brewfile"
 
 echo "==> Creating symlinks..."
 mkdir -p ~/.config
