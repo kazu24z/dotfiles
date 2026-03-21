@@ -15,6 +15,13 @@ cd ~/dotfiles && ./install.sh
 source ~/.zshrc
 ```
 
+## 使い方
+
+```bash
+# Claude Code開発環境を起動（Zellij + Claude Code + yazi）
+zdev
+```
+
 ## ツールの追加・削除
 
 `Brewfile` を編集してから `install.sh` を再実行する。

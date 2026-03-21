@@ -5,7 +5,7 @@ alias cat='bat'
 alias ls='eza'
 alias cd='z'
 alias lg='lazygit'
-alias dev='zellij --layout ~/.config/zellij/layouts/dev.kdl'
+alias zdev='zellij --layout ~/.config/zellij/layouts/dev.kdl'
 export EDITOR=nvim
 
 # Init
