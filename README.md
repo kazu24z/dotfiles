@@ -30,5 +30,6 @@ source ~/.zshrc
 |---|---|
 | `config/nvim/` | Neovim + LazyVim |
 | `config/zellij/` | Zellij・レイアウト |
+| `config/ghostty/` | Ghostty（ターミナル） |
 | `config/starship.toml` | プロンプト |
 | `home/zshrc.dev-tools` | CLIツール・エイリアス |
