@@ -13,8 +13,22 @@ mkdir -p ~/.config
 link_or_skip() {
     local src="$1"
     local target="$2"
-    if [ -e "$target" ] && [ ! -L "$target" ]; then
-        echo "  SKIP: $target already exists (not a symlink). Skipping."
+    if [ -L "$target" ]; then
+        local current_dest
+        current_dest=$(readlink "$target")
+        if [ "$current_dest" = "$src" ]; then
+            echo "  LINK: $target (already linked)"
+        else
+            echo ""
+            echo "  WARNING: $target is already a symlink pointing to $current_dest"
+            echo "  To overwrite, run: rm \"$target\" && ln -sf \"$src\" \"$target\""
+            echo "  Skipping."
+        fi
+    elif [ -e "$target" ]; then
+        echo ""
+        echo "  WARNING: $target already exists (not a symlink)."
+        echo "  To overwrite, run: rm -rf \"$target\" && ln -sf \"$src\" \"$target\""
+        echo "  Skipping."
     else
         ln -sf "$src" "$target"
         echo "  LINK: $target"
