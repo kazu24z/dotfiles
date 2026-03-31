@@ -55,6 +55,20 @@ cdev              # カレントディレクトリで起動
 cdev ~/your/project  # ディレクトリ指定で起動
 ```
 
+## CLIツール
+
+`install.sh` で以下が自動インストールされ、エイリアスが設定されます。
+
+| コマンド | 実体 | 説明 |
+| -------- | ---- | ---- |
+| `cat` | [bat](https://github.com/sharkdp/bat) | シンタックスハイライト付きcat |
+| `ls` | [eza](https://github.com/eza-community/eza) | モダンなls |
+| `cd` | [zoxide](https://github.com/ajeetdsouza/zoxide) | 学習型ディレクトリ移動 |
+| `lg` | [lazygit](https://github.com/jesseduffield/lazygit) | TUIのgitクライアント |
+| `yazi` | [yazi](https://github.com/sxyazi/yazi) | TUIのファイラー |
+
+その他インストールされるツール: `fzf` / `ripgrep` / `fd` / `delta` / `starship` / `neovim`
+
 ## オプション: ペイン移動キーバインドをvimキーに変更
 
 デフォルトは `⌥+⌘+←/→/↑/↓` ですが、`⌥+⌘+h/j/k/l` に変更するとvimライクに操作できます。
