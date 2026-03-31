@@ -1,6 +1,22 @@
 # dotfiles
 
-Claude Code開発環境のdotfiles管理リポジトリ。
+Claude Codeを使った開発環境のdotfiles管理リポジトリ。
+
+## これで何ができるか
+
+`cdev` コマンド一発で以下のレイアウトをcmux上に展開できます。
+
+```
+┌─────────────────┬──────────────┐
+│                 │    yazi      │
+│   Claude Code   ├──────────────┤
+│                 │   terminal   │
+└─────────────────┴──────────────┘
+```
+
+- **左**: Claude Code（AI駆動の開発）
+- **右上**: yazi（ファイラー）
+- **右下**: ターミナル（コマンド実行）
 
 ## セットアップ
 
@@ -27,23 +43,28 @@ source ~/.zshrc
 起動ディレクトリ等、端末ごとに異なる設定は `~/.config/ghostty/config.local` に記述します（git管理外）。
 
 ```bash
-# 例
 echo "working-directory = ~/your/project" > ~/.config/ghostty/config.local
 ```
 
 ## 使い方
 
+cmuxを起動してターミナルで実行します。
+
 ```bash
-# cmux内のターミナルで開発環境を起動（Claude Code + yazi + terminal）
-cdev [ディレクトリ]  # 省略時はカレントディレクトリ
+cdev              # カレントディレクトリで起動
+cdev ~/your/project  # ディレクトリ指定で起動
 ```
+
+## オプション: ペイン移動キーバインドをvimキーに変更
+
+デフォルトは `⌥+⌘+←/→/↑/↓` ですが、`⌥+⌘+h/j/k/l` に変更するとvimライクに操作できます。
+cmuxの `⌘,` > キーボードショートカットから変更してください（この設定はdotfilesで管理されません）。
 
 ## ツールの追加・削除
 
 `Brewfile` を編集してから `install.sh` を再実行する。
 
 ```bash
-# Brewfileを編集後
 cd <cloneしたパス> && ./install.sh
 ```
 
