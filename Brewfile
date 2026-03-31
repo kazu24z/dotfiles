@@ -15,3 +15,5 @@ brew "stow"
 
 # Terminal
 cask "ghostty"
+tap "manaflow-ai/cmux"
+cask "cmux"
