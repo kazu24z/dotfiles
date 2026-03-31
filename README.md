@@ -22,11 +22,20 @@ source ~/.zshrc
 
 > Neovim初回起動時（`nvim`）はプラグインが自動インストールされます。完了したら `:q` で終了してください。
 
+## 端末固有の設定
+
+起動ディレクトリ等、端末ごとに異なる設定は `~/.config/ghostty/config.local` に記述します（git管理外）。
+
+```bash
+# 例
+echo "working-directory = ~/your/project" > ~/.config/ghostty/config.local
+```
+
 ## 使い方
 
 ```bash
-# Claude Code開発環境を起動（Zellij + Claude Code + yazi）
-zdev
+# cmux内のターミナルで開発環境を起動（Claude Code + yazi + terminal）
+cdev [ディレクトリ]  # 省略時はカレントディレクトリ
 ```
 
 ## ツールの追加・削除
@@ -40,10 +49,11 @@ cd <cloneしたパス> && ./install.sh
 
 ## 管理している設定ファイル
 
-| ファイル               | 内容                  |
-| ---------------------- | --------------------- |
-| `config/nvim/`         | Neovim + LazyVim      |
-| `config/zellij/`       | Zellij・レイアウト    |
-| `config/ghostty/`      | Ghostty（ターミナル） |
-| `config/starship.toml` | プロンプト            |
-| `home/zshrc.dev-tools` | CLIツール・エイリアス |
+| ファイル               | 内容                        |
+| ---------------------- | --------------------------- |
+| `config/nvim/`         | Neovim + LazyVim            |
+| `config/cmux/`         | cmux カスタムコマンド       |
+| `config/ghostty/`      | cmux ターミナル設定         |
+| `config/zellij/`       | Zellij（現在未使用）        |
+| `config/starship.toml` | プロンプト                  |
+| `home/zshrc.dev-tools` | CLIツール・エイリアス・cdev |

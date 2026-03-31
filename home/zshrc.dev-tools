@@ -5,8 +5,41 @@ alias cat='bat'
 alias ls='eza'
 alias cd='z'
 alias lg='lazygit'
-alias zdev='zellij --layout ~/.config/zellij/layouts/dev.kdl'
+# alias zdev='zellij --layout ~/.config/zellij/layouts/dev.kdl'
 export EDITOR=nvim
+
+# cmux: 開発レイアウトで起動
+# 使い方: cdev [ディレクトリ]  例: cdev ~/project/myapp
+cdev() {
+  local dir="${1:-$(pwd)}"
+  local ws="$CMUX_WORKSPACE_ID"
+  local claude_surface="$CMUX_SURFACE_ID"
+
+  local yazi_out=$(cmux new-split right --workspace "$ws" --surface "$claude_surface" 2>/dev/null)
+  local yazi_surface=$(echo "$yazi_out" | grep -oE 'surface:[0-9]+' | head -1)
+
+  local term_out=$(cmux new-split down --workspace "$ws" --surface "$yazi_surface" 2>/dev/null)
+  local term_surface=$(echo "$term_out" | grep -oE 'surface:[0-9]+' | head -1)
+
+  _cdev_send() {
+    local surface="$1" cmd="$2"
+    local i=0
+    while [[ $i -lt 30 ]]; do
+      local screen=$(cmux read-screen --workspace "$ws" --surface "$surface" --lines 3 2>/dev/null)
+      if echo "$screen" | grep -qE '❯|>>>|\$\s|%\s'; then
+        cmux send --workspace "$ws" --surface "$surface" "$cmd" > /dev/null 2>&1
+        cmux send-key --workspace "$ws" --surface "$surface" enter > /dev/null 2>&1
+        return
+      fi
+      sleep 0.5
+      ((i++))
+    done
+  }
+
+  _cdev_send "$claude_surface" "cd $dir && claude"
+  _cdev_send "$yazi_surface"   "cd $dir && yazi ."
+  _cdev_send "$term_surface"   "cd $dir"
+}
 
 # Init
 eval "$(zoxide init zsh)"
