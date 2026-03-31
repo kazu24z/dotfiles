@@ -11,6 +11,11 @@ export EDITOR=nvim
 # cmux: 開発レイアウトで起動
 # 使い方: cdev [ディレクトリ]  例: cdev ~/project/myapp
 cdev() {
+  if [[ -z "$CMUX_WORKSPACE_ID" ]]; then
+    echo "Error: cdev must be run inside cmux"
+    return 1
+  fi
+
   local dir="${1:-$(pwd)}"
   local ws="$CMUX_WORKSPACE_ID"
   local claude_surface="$CMUX_SURFACE_ID"
@@ -26,7 +31,7 @@ cdev() {
     local i=0
     while [[ $i -lt 30 ]]; do
       local screen=$(cmux read-screen --workspace "$ws" --surface "$surface" --lines 3 2>/dev/null)
-      if echo "$screen" | grep -qE '❯|>>>|\$\s|%\s'; then
+      if echo "$screen" | grep -qE '❯|>>>|\$\s|%\s|#\s'; then
         cmux send --workspace "$ws" --surface "$surface" "$cmd" > /dev/null 2>&1
         cmux send-key --workspace "$ws" --surface "$surface" enter > /dev/null 2>&1
         return
@@ -34,11 +39,14 @@ cdev() {
       sleep 0.5
       ((i++))
     done
+    # タイムアウト時もコマンドを送信
+    cmux send --workspace "$ws" --surface "$surface" "$cmd" > /dev/null 2>&1
+    cmux send-key --workspace "$ws" --surface "$surface" enter > /dev/null 2>&1
   }
 
-  _cdev_send "$claude_surface" "cd $dir && claude"
-  _cdev_send "$yazi_surface"   "cd $dir && yazi ."
-  _cdev_send "$term_surface"   "cd $dir"
+  _cdev_send "$claude_surface" "cd \"$dir\" && claude"
+  _cdev_send "$yazi_surface"   "cd \"$dir\" && yazi ."
+  _cdev_send "$term_surface"   "cd \"$dir\""
 }
 
 # Init

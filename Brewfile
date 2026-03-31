@@ -11,9 +11,7 @@ brew "zoxide"
 brew "fd"
 brew "delta"
 brew "starship"
-brew "stow"
 
 # Terminal
-cask "ghostty"
 tap "manaflow-ai/cmux"
 cask "cmux"

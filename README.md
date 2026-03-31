@@ -18,6 +18,12 @@ Claude Codeを使った開発環境のdotfiles管理リポジトリ。
 - **右上**: yazi（ファイラー）
 - **右下**: ターミナル（コマンド実行）
 
+## 前提条件
+
+- macOS
+- [Homebrew](https://brew.sh)
+- [Claude Code CLI](https://claude.ai/code)（`claude` コマンド）
+
 ## セットアップ
 
 cloneする場所は任意です。
