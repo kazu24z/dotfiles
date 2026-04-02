@@ -36,6 +36,7 @@ link_or_skip() {
 }
 
 link_or_skip "$DOTFILES_DIR/config/cmux" ~/.config/cmux
+link_or_skip "$DOTFILES_DIR/config/yazi" ~/.config/yazi
 link_or_skip "$DOTFILES_DIR/config/nvim" ~/.config/nvim
 link_or_skip "$DOTFILES_DIR/config/zellij" ~/.config/zellij
 link_or_skip "$DOTFILES_DIR/config/ghostty" ~/.config/ghostty

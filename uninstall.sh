@@ -24,6 +24,7 @@ remove_link() {
 }
 
 remove_link "$DOTFILES_DIR/config/cmux" ~/.config/cmux
+remove_link "$DOTFILES_DIR/config/yazi" ~/.config/yazi
 remove_link "$DOTFILES_DIR/config/nvim" ~/.config/nvim
 remove_link "$DOTFILES_DIR/config/zellij" ~/.config/zellij
 remove_link "$DOTFILES_DIR/config/ghostty" ~/.config/ghostty

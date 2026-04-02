@@ -118,6 +118,7 @@ cd <cloneしたパス> && ./install.sh
 | `config/nvim/`         | Neovim + LazyVim            |
 | `config/cmux/`         | cmux カスタムコマンド       |
 | `config/ghostty/`      | cmux ターミナル設定         |
+| `config/yazi/`         | yaziファイラー設定          |
 | `config/zellij/`       | Zellij（現在未使用）        |
 | `config/starship.toml` | プロンプト                  |
 | `home/zshrc.dev-tools` | CLIツール・エイリアス・cdev |
