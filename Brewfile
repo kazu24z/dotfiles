@@ -11,6 +11,7 @@ brew "zoxide"
 brew "fd"
 brew "delta"
 brew "starship"
+brew "glow"
 
 # Terminal
 tap "manaflow-ai/cmux"
