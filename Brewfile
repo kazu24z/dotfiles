@@ -12,6 +12,7 @@ brew "fd"
 brew "delta"
 brew "starship"
 brew "glow"
+brew "jq"
 
 # Terminal
 tap "manaflow-ai/cmux"

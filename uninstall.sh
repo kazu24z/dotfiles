@@ -31,6 +31,8 @@ remove_link "$DOTFILES_DIR/config/ghostty" ~/.config/ghostty
 remove_link "$DOTFILES_DIR/config/starship.toml" ~/.config/starship.toml
 remove_link "$DOTFILES_DIR/home/zshrc.dev-tools" ~/.zshrc.dev-tools
 
+"$DOTFILES_DIR/claude/task-loop/uninstall.sh"
+
 echo "==> Cleaning ~/.zshrc..."
 if grep -q "source ~/.zshrc.dev-tools" ~/.zshrc; then
     cp ~/.zshrc ~/.zshrc.bak

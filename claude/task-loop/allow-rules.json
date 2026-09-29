@@ -1,0 +1,8 @@
+[
+  "Bash(go build *)",
+  "Bash(go vet *)",
+  "Bash(go test *)",
+  "Bash(mkdir -p *)",
+  "Bash(cursor-agent create-chat)",
+  "Bash(cursor-agent -p --trust --mode ask *)"
+]

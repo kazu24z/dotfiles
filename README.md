@@ -122,3 +122,4 @@ cd <cloneしたパス> && ./install.sh
 | `config/zellij/`       | Zellij（現在未使用）        |
 | `config/starship.toml` | プロンプト                  |
 | `home/zshrc.dev-tools` | CLIツール・エイリアス・cdev |
+| `claude/task-loop/`    | Claude Code の task-loop Workflow（タスク一覧の自動実装）。`~/.claude` の下にリンクし、`~/.claude/CLAUDE.md` と `~/.claude/settings.json` にも追記する。詳しくは [claude/task-loop/README.md](claude/task-loop/README.md) |

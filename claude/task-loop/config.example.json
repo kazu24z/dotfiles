@@ -1,0 +1,21 @@
+{
+  "docsRoot": "docs",
+  "designDocs": [
+    "{docsRoot}/spec/{requirement}/requirements.md",
+    "{docsRoot}/design/{requirement}/architecture.md",
+    "{docsRoot}/design/{requirement}/interfaces.md",
+    "{docsRoot}/design/{requirement}/dataflow.md",
+    "{docsRoot}/design/{requirement}/database-schema.sql"
+  ],
+  "checks": [
+    { "name": "build", "dir": ".", "command": "go build ./..." },
+    { "name": "vet", "dir": ".", "command": "go vet ./..." }
+  ],
+  "touchedTests": "BASE から変更した .go ファイルが属するパッケージだけを go test する。-count=1 と -race は付けない。",
+  "fullTest": { "dir": ".", "command": "go test -race ./..." },
+  "maxRounds": 5,
+  "stuckRounds": 2,
+  "checkFixTries": 2,
+  "parallel": 1,
+  "cursorModel": "cursor-grok-4.6-high-fast"
+}

@@ -43,6 +43,8 @@ link_or_skip "$DOTFILES_DIR/config/ghostty" ~/.config/ghostty
 link_or_skip "$DOTFILES_DIR/config/starship.toml" ~/.config/starship.toml
 link_or_skip "$DOTFILES_DIR/home/zshrc.dev-tools" ~/.zshrc.dev-tools
 
+"$DOTFILES_DIR/claude/task-loop/install.sh"
+
 echo "==> Updating ~/.zshrc..."
 if ! grep -q "source ~/.zshrc.dev-tools" ~/.zshrc; then
     echo "source ~/.zshrc.dev-tools" >> ~/.zshrc
