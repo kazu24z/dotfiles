@@ -12,7 +12,9 @@ tsumiki 形式のタスク一覧（`TASK-NNNN.md`）を、範囲を決めて自�
 | `agents/loop-reviewer.md` | `~/.claude/agents/` | 設計とのズレとバグを見るレビュー担当（Fable、読むだけ） |
 | `agents/loop-cursor-reviewer.md` | `~/.claude/agents/` | cursor-agent を読むだけのモードで呼ぶ係 |
 | `agents/loop-committer.md` | `~/.claude/agents/` | レビューが見た状態と同じか確かめてコミットする担当。push はしない |
+| `agents/loop-recorder.md` | `~/.claude/agents/` | 台帳の `state.json` を書く記録係（Write だけ使える） |
 | `hooks/*.sh` | `~/.claude/task-loop/hooks/` | エージェントごとに、使ってよいコマンドを絞る hook |
+| `notify.sh` | `~/.claude/task-loop/notify.sh` | 終わったときと止まったときに macOS の通知を出す |
 | `guide.md` | `~/.claude/task-loop/guide.md` | メインのセッション向けの案内。`~/.claude/CLAUDE.md` から `@~/.claude/task-loop/guide.md` で読み込む |
 | `config.example.json` | `~/.claude/task-loop/config.example.json` | プロジェクトごとの設定の見本 |
 | `allow-rules.json` | `~/.claude/settings.json` に足す | 長く回すときに許可の確認で止まらないための許可のルール |

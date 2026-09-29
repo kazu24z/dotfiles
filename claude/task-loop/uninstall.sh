@@ -32,4 +32,5 @@ for f in "$TL"/hooks/*.sh; do
 done
 remove_link "$TL/guide.md" ~/.claude/task-loop/guide.md
 remove_link "$TL/config.example.json" ~/.claude/task-loop/config.example.json
+remove_link "$TL/notify.sh" ~/.claude/task-loop/notify.sh
 echo "  NOTE: ~/.claude/CLAUDE.md の '@~/.claude/task-loop/guide.md' の行と、~/.claude/settings.json の task-loop の許可のルール（allow-rules.json）は残してある。要らなければ手で消す"

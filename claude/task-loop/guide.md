@@ -15,6 +15,9 @@
    - もう 1 周直してレビューする: `action: "more"`（周を足すなら `rounds`）
    - そのままコミットする: `action: "commit"`
    - 質問に答えて続ける: `action: "more"` と `answer`
+   - 止まったときの結果が手元に無い（別のセッションから続ける）ときは、`<worktree>/.task-loop/<要件名>/<TASK-ID>/state.json` を読み、その `state` を `resume.state` に渡す
+
+task-loop は、終わったときと止まったときに macOS の通知を出す。タスクごとの経過（指摘、レビュー担当ごとの件数、周ごとの記録）は、同じ `state.json` に残る。
 
 プロジェクトごとの設定（チェックのコマンド、全テストのコマンド、文書の場所）は `~/.claude/task-loop/<org>-<repo>.json` に置く。`<org>-<repo>` は git の remote の URL から作る。無いと task-loop は最初に止まる。書き方は `~/.claude/task-loop/config.example.json` を見る。
 

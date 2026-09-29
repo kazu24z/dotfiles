@@ -46,6 +46,7 @@ for f in "$TL"/hooks/*.sh; do
 done
 link_or_skip "$TL/guide.md" ~/.claude/task-loop/guide.md
 link_or_skip "$TL/config.example.json" ~/.claude/task-loop/config.example.json
+link_or_skip "$TL/notify.sh" ~/.claude/task-loop/notify.sh
 
 touch ~/.claude/CLAUDE.md
 if ! grep -qF "@~/.claude/task-loop/guide.md" ~/.claude/CLAUDE.md; then

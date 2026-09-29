@@ -9,6 +9,8 @@ export const meta = {
     { title: 'レビュー' },
     { title: 'コミット' },
     { title: '全テスト' },
+    { title: '記録' },
+    { title: '通知' },
   ],
 }
 
@@ -121,6 +123,27 @@ const isOpen = f => f.status === 'open' || f.status === 'still_open'
 const isBlocking = f => isOpen(f) && (f.kind === 'broken' || f.kind === 'design')
 const isStuck = r => r.status === 'BLOCKED' || r.status === 'NEEDS_CONTEXT'
 
+const summarize = st => {
+  const by = {}
+  for (const f of st.findings || []) {
+    const k = f.reviewer === 'F' ? 'Fable' : 'cursor-agent'
+    by[k] = by[k] || { total: 0 }
+    by[k].total += 1
+    by[k][f.status] = (by[k][f.status] || 0) + 1
+  }
+  return by
+}
+
+const recordState = async (task, st, status, extra) => {
+  const body = JSON.stringify({ task: task.id, title: task.title, status, round: st.round, ...(extra || {}), reviewers: summarize(st), state: st }, null, 2)
+  const r = await agent(`task-loop Workflow の記録（${task.id}、${status}）。エージェント定義のとおり、次のファイルに、「---」の次の行から最後までをそのまま書く。
+
+ファイル: ${LEDGER}/${task.id}/state.json
+---
+${body}`, { agentType: 'loop-recorder', effort: 'low', phase: '記録', label: `${task.id} 記録 (${status === 'in-progress' ? `r${st.round}` : status})` })
+  if (!r) log(`${task.id} の state.json を書けなかった`)
+}
+
 async function runTask(task, base, resume) {
   const tag = task.id
   const dir = `${LEDGER}/${task.id}`
@@ -165,6 +188,7 @@ ${JSON.stringify(list, null, 2)}`
   }
 
   const merge = (prefix, rv) => {
+    const newIds = []
     for (const p of rv.prior || []) {
       const f = st.findings.find(x => x.id === p.id && x.reviewer === prefix)
       if (!f || !isOpen(f)) continue
@@ -181,7 +205,10 @@ ${JSON.stringify(list, null, 2)}`
         st.deferred.push({ id: f.id, reviewer: prefix === 'F' ? 'Fable' : 'cursor-agent', kind: suspect ? 'suspect' : 'improvement', file: f.file, line: f.line, title: f.title, detail: f.detail })
       }
       st.findings.push(f)
+      newIds.push(f.id)
     }
+    st.history = st.history || []
+    st.history.push({ round: st.round, reviewer: prefix === 'F' ? 'Fable' : 'cursor-agent', newIds, prior: (rv.prior || []).map(p => ({ id: p.id, status: p.status })) })
     for (const t of rv.outOfScope || []) {
       st.deferred.push({ reviewer: prefix === 'F' ? 'Fable' : 'cursor-agent', kind: 'out-of-scope', title: t })
     }
@@ -313,7 +340,7 @@ ${(st.changedFiles || []).map(f => `- ${f}`).join('\n') || '- （無し）'}
 ${force || !st.tree ? 'レビューが見た tree: 確かめなくてよい（ユーザーの指示でコミットする）' : `レビューが見た tree: ${st.tree}`}`, { agentType: 'loop-committer', schema: COMMIT_SCHEMA, phase: 'コミット', label: `${tag} コミット` })
     if (!c) return stop('agent-failed', 'コミット担当が失敗した')
     if (!c.committed) return stop('commit-refused', c.reason)
-    return { task: task.id, sha: c.sha, rounds: st.round, message: c.message, deferred: st.deferred }
+    return { task: task.id, sha: c.sha, rounds: st.round, message: c.message, deferred: st.deferred, state: st }
   }
 
   if (resume && resume.action === 'commit') return commit(true)
@@ -343,6 +370,7 @@ ${force || !st.tree ? 'レビューが見た tree: 確かめなくてよい（�
     const stuck = blocking.filter(f => (f.stillOpen || 0) >= stuckRounds)
     if (stuck.length) return stop('stuck', `${stuck.map(f => f.id).join(', ')} が ${stuckRounds} 周続けて直っていない`)
     if (st.round >= maxR) return stop('cap', `${maxR} 周で承認にならなかった`)
+    await recordState(task, st, 'in-progress')
     const s = await fix()
     if (s) return s
   }
@@ -374,8 +402,12 @@ while (pending.length) {
   const r = await runTask(task, base, resume)
   if (r.stopped) {
     stopped = r.stopped
+    if (r.stopped.state) {
+      await recordState(task, r.stopped.state, 'stopped', { reason: r.stopped.reason, detail: r.stopped.detail, openFindings: r.stopped.findings })
+    }
     break
   }
+  await recordState(task, r.state, 'committed', { sha: r.sha })
   results.push(r)
   doneIds.add(task.id)
   base = r.sha
@@ -395,6 +427,15 @@ worktree: ${W}
 2. \`for i in $(seq 57); do [ -f ${LEDGER}/full-test.exit ] && break; sleep 10; done; cat ${LEDGER}/full-test.exit 2>/dev/null\` を、exit のファイルができるまで繰り返す（Bash の timeout は 600000）。10 秒ごとに見に行くので、テストが早く終われば、すぐ次へ進める。先にまとめて sleep しない。
 3. exit が 0 なら pass を true。0 以外なら pass を false にし、${LEDGER}/full-test.log から、落ちたテストの名前と原因がわかる最短の行を failures に並べる。ログ全体は返さない。`, { agentType: 'loop-checker', schema: FULL_SCHEMA, phase: '全テスト', label: '全テスト' })
 }
+
+const notice = (stopped
+  ? `${stopped.task ? `${stopped.task} で` : ''}止まった（${stopped.reason}）${stopped.detail ? `: ${stopped.detail}` : ''}`
+  : `${results.length} 本コミットした。全テスト: ${fullTest ? (fullTest.pass ? '通過' : '失敗') : 'なし'}`
+).replace(/['\n]/g, ' ').slice(0, 150)
+phase('通知')
+await agent(`task-loop Workflow の通知。次のコマンドをそのまま 1 回だけ実行して、「ok」とだけ返す。ほかには何もしない。
+
+~/.claude/task-loop/notify.sh 'task-loop' '${notice}'`, { agentType: 'loop-checker', effort: 'low', phase: '通知', label: '通知' })
 
 return {
   done: results.map(r => ({ task: r.task, sha: r.sha, rounds: r.rounds, message: r.message, deferred: r.deferred })),

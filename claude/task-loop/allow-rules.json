@@ -1,8 +1,9 @@
 [
-  "Bash(go build *)",
-  "Bash(go vet *)",
-  "Bash(go test *)",
-  "Bash(mkdir -p *)",
+  "Bash(cursor-agent -p --trust --mode ask *)",
   "Bash(cursor-agent create-chat)",
-  "Bash(cursor-agent -p --trust --mode ask *)"
+  "Bash(go build *)",
+  "Bash(go test *)",
+  "Bash(go vet *)",
+  "Bash(mkdir -p *)",
+  "Bash(~/.claude/task-loop/notify.sh *)"
 ]
