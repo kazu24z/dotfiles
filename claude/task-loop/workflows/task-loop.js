@@ -298,12 +298,19 @@ ${ck.failures.map(x => `- ${x.command}: ${x.line}`).join('\n')}
 ${header}
 差分（BASE ${st.base} から今の状態まで）: ${ck.diffFile}${delta}${concerns}
 
+レビューの前に、このリポジトリの規約を読む。対象は、変更したファイルがあるディレクトリからリポジトリのルートまでたどったところにある CLAUDE.md と、.claude/rules/*.md のうち先頭の paths: に変更したファイルに合うものがあるもの。規約に反するものは design として指摘し、根拠に規約のファイル名を挙げる。
+
 ${priorFor('F')}`, { agentType: 'loop-reviewer', schema: REVIEW_SCHEMA, phase: 'レビュー', label: `${tag} r${st.round} Fable` })
     const request = `あなたはコードレビューの担当です。ファイルは変更しないでください。読むだけです。
 
 見るもの:
 - このタスクの実装そのもののバグ。はっきり壊れているものと、条件がそろうと壊れるものの両方
 - TASK ファイルに書かれた範囲から外れていないか
+- このリポジトリの規約に反していないか
+
+レビューの前に、このリポジトリの規約を読んでください。対象は次の 2 つです。規約に反するものは、指摘の根拠としてファイル名を挙げてください。
+- 変更したファイルがあるディレクトリから、リポジトリのルートまでたどったところにある CLAUDE.md と AGENTS.md
+- .claude/rules/*.md のうち、先頭の paths: に、変更したファイルに合うものがあるもの
 
 TASK: ${task.file}
 差分（BASE から今の状態まで）: ${ck.diffFile}${delta}
